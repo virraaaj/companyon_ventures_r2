@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Investment Memo: YeshID — PASS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    /* ── Reset & Base ─────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; scroll-padding-top: 5rem; }
+
+    :root {
+      --bg: #ffffff;
+      --bg-alt: #f7f8fa;
+      --bg-card: #ffffff;
+      --text: #1a1a2e;
+      --text-secondary: #64748b;
+      --text-tertiary: #94a3b8;
+      --accent: #dc2626;
+      --accent-muted: #fef2f2;
+      --accent-border: #fecaca;
+      --green: #16a34a;
+      --green-muted: #f0fdf4;
+      --green-border: #bbf7d0;
+      --blue: #2563eb;
+      --blue-muted: #eff6ff;
+      --blue-border: #bfdbfe;
+      --amber: #d97706;
+      --amber-muted: #fffbeb;
+      --amber-border: #fde68a;
+      --border: #e2e8f0;
+      --border-strong: #cbd5e1;
+      --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.06);
+      --shadow-lg: 0 8px 30px rgba(0,0,0,0.08);
+      --radius: 10px;
+      --radius-sm: 6px;
+      --max-w: 760px;
+      --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    [data-theme="dark"] {
+      --bg: #111111;
+      --bg-alt: #1a1a1a;
+      --bg-card: #1a1a1a;
+      --text: #e4e4e7;
+      --text-secondary: #a1a1aa;
+      --text-tertiary: #71717a;
+      --accent: #f87171;
+      --accent-muted: #1c1114;
+      --accent-border: #7f1d1d;
+      --green: #4ade80;
+      --green-muted: #0d1a0f;
+      --green-border: #14532d;
+      --blue: #60a5fa;
+      --blue-muted: #0f1318;
+      --blue-border: #1e3a5f;
+      --amber: #fbbf24;
+      --amber-muted: #171308;
+      --amber-border: #713f12;
+      --border: #2e2e2e;
+      --border-strong: #3f3f3f;
+      --shadow-sm: 0 1px 2px rgba(0,0,0,0.2);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.3);
+      --shadow-lg: 0 8px 30px rgba(0,0,0,0.4);
+    }
+
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      font-size: 16px;
+      font-weight: 400;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Progress Bar ─────────────────────────────── */
+    .progress-bar {
+      position: fixed; top: 0; left: 0; height: 3px;
+      background: var(--accent); z-index: 1001;
+      transition: width 0.15s ease;
+    }
+
+    /* ── Nav ──────────────────────────────────────── */
+    nav {
+      position: sticky; top: 0; z-index: 1000;
+      background: var(--bg); border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(12px);
+    }
+    .nav-inner {
+      max-width: var(--max-w); margin: 0 auto;
+      padding: 0 1.5rem; display: flex;
+      align-items: center; justify-content: space-between;
+      height: 3.25rem;
+    }
+    .nav-brand {
+      font-weight: 700; font-size: 0.85rem; letter-spacing: -0.01em;
+      color: var(--text); text-decoration: none;
+    }
+    .nav-links { display: flex; gap: 0.15rem; align-items: center; }
+    .nav-links a {
+      font-size: 0.72rem; font-weight: 500; color: var(--text-secondary);
+      text-decoration: none; padding: 0.35rem 0.55rem;
+      border-radius: var(--radius-sm); transition: all 0.2s;
+      letter-spacing: 0.01em;
+    }
+    .nav-links a:hover { color: var(--text); background: var(--bg-alt); }
+    .nav-links a.active { color: var(--accent); font-weight: 600; }
+    .theme-toggle {
+      background: none; border: 1px solid var(--border); cursor: pointer;
+      font-size: 0.85rem; padding: 0.3rem 0.5rem; border-radius: var(--radius-sm);
+      color: var(--text); transition: all 0.2s;
+    }
+    .theme-toggle:hover { background: var(--bg-alt); }
+
+    .hamburger {
+      display: none; background: none; border: none; cursor: pointer;
+      color: var(--text); font-size: 1.25rem; padding: 0.25rem;
+    }
+
+    /* ── Hero / Verdict ───────────────────────────── */
+    .hero {
+      padding: 5rem 1.5rem 3rem;
+      max-width: var(--max-w); margin: 0 auto;
+      text-align: center;
+    }
+    .hero-verdict-badge {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: var(--accent);
+      color: #fff;
+      font-size: 1rem; font-weight: 800; letter-spacing: 0.08em;
+      padding: 0.6rem 2rem; border-radius: 100px;
+      text-transform: uppercase;
+      margin-bottom: 2rem;
+      box-shadow: 0 4px 20px rgba(220,38,38,0.25);
+    }
+    .hero-company {
+      font-size: 3.2rem; font-weight: 900; letter-spacing: -0.035em;
+      line-height: 1.1; margin-bottom: 0.75rem; color: var(--text);
+    }
+    .hero-tagline {
+      font-size: 1.05rem; color: var(--text-secondary); font-weight: 400;
+      max-width: 520px; margin: 0 auto 2rem; line-height: 1.6;
+    }
+    .hero-thesis {
+      font-size: 1.3rem; font-weight: 600; letter-spacing: -0.02em;
+      line-height: 1.45; color: var(--text);
+      max-width: 600px; margin: 0 auto 2.5rem;
+      border-left: 4px solid var(--accent);
+      padding-left: 1.25rem;
+      text-align: left;
+    }
+
+    /* ── Top Reasons Strip ────────────────────────── */
+    .top-reasons {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;
+      max-width: var(--max-w); margin: 0 auto 3.5rem; padding: 0 1.5rem;
+    }
+    .reason-chip {
+      background: var(--accent-muted);
+      border: 1px solid var(--accent-border);
+      border-radius: var(--radius);
+      padding: 1.1rem 1.25rem;
+      text-align: center;
+    }
+    .reason-chip .reason-num {
+      display: block; font-size: 0.65rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.1em;
+      color: var(--accent); margin-bottom: 0.4rem;
+    }
+    .reason-chip .reason-text {
+      font-size: 0.85rem; font-weight: 600; color: var(--text);
+      line-height: 1.4; letter-spacing: -0.01em;
+    }
+
+    /* ── Sections ─────────────────────────────────── */
+    section {
+      max-width: var(--max-w); margin: 0 auto;
+      padding: 3rem 1.5rem 2rem;
+    }
+    section + section { border-top: 1px solid var(--border); }
+
+    .section-label {
+      font-size: 0.65rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.12em; color: var(--text-tertiary);
+      margin-bottom: 0.5rem;
+    }
+    .section-title {
+      font-size: 1.6rem; font-weight: 800; letter-spacing: -0.03em;
+      line-height: 1.2; margin-bottom: 0.6rem; color: var(--text);
+    }
+    .section-intro {
+      font-size: 0.92rem; color: var(--text-secondary); line-height: 1.65;
+      margin-bottom: 2rem; max-width: 600px;
+      font-style: italic;
+    }
+
+    /* ── Body Prose ────────────────────────────────── */
+    .prose { font-size: 0.95rem; line-height: 1.75; color: var(--text); }
+    .prose p + p { margin-top: 1.1rem; }
+    .prose strong { font-weight: 600; }
+
+    /* ── De-emphasized supporting text ─────────────── */
+    .supporting {
+      font-size: 0.88rem; color: var(--text-secondary); line-height: 1.7;
+    }
+    .supporting p + p { margin-top: 1rem; }
+
+    /* ── Metric Callout ───────────────────────────── */
+    .metric-callout {
+      display: flex; align-items: baseline; gap: 1rem;
+      padding: 1.5rem 1.75rem; margin: 1.75rem 0;
+      background: var(--bg-alt); border-radius: var(--radius);
+      border: 1px solid var(--border);
+    }
+    .metric-callout .metric-value {
+      font-size: 2.4rem; font-weight: 900; letter-spacing: -0.04em;
+      color: var(--text); line-height: 1;
+    }
+    .metric-callout .metric-label {
+      font-size: 0.88rem; color: var(--text-secondary); line-height: 1.5;
+    }
+    .metric-callout.accent-metric {
+      background: var(--accent-muted);
+      border-color: var(--accent-border);
+    }
+    .metric-callout.accent-metric .metric-value { color: var(--accent); }
+    .metric-callout.green-metric {
+      background: var(--green-muted);
+      border-color: var(--green-border);
+    }
+    .metric-callout.green-metric .metric-value { color: var(--green); }
+
+    /* ── Pull Quote ───────────────────────────────── */
+    .pull-quote {
+      border-left: 4px solid var(--accent);
+      padding: 1.25rem 0 1.25rem 1.5rem;
+      margin: 2rem 0;
+      font-size: 1.1rem; font-weight: 600; line-height: 1.5;
+      color: var(--text); letter-spacing: -0.01em;
+    }
+    .pull-quote .pq-attr {
+      display: block; margin-top: 0.5rem;
+      font-size: 0.78rem; font-weight: 400; color: var(--text-tertiary);
+      font-style: italic;
+    }
+
+    /* ── Snapshot Grid ────────────────────────────── */
+    .snapshot-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 0;
+      border: 1px solid var(--border); border-radius: var(--radius);
+      overflow: hidden; margin-top: 0.5rem;
+    }
+    .snapshot-item {
+      padding: 0.9rem 1.1rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .snapshot-item:nth-child(odd) { border-right: 1px solid var(--border); }
+    .snapshot-item:nth-last-child(-n+2) { border-bottom: none; }
+    .snapshot-item .snap-label {
+      font-size: 0.68rem; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 0.08em; color: var(--text-tertiary); margin-bottom: 0.2rem;
+    }
+    .snapshot-item .snap-value {
+      font-size: 0.92rem; font-weight: 600; color: var(--text);
+    }
+
+    /* ── Cards (strengths/risks/neutral) ──────────── */
+    .callout {
+      padding: 1.25rem 1.5rem; border-radius: var(--radius);
+      margin: 1.25rem 0;
+      border-left: 4px solid;
+    }
+    .callout.strength {
+      background: var(--green-muted);
+      border-color: var(--green);
+    }
+    .callout.strength .callout-title { color: var(--green); }
+    .callout.risk {
+      background: var(--accent-muted);
+      border-color: var(--accent);
+    }
+    .callout.risk .callout-title { color: var(--accent); }
+    .callout.neutral {
+      background: var(--blue-muted);
+      border-color: var(--blue);
+    }
+    .callout.neutral .callout-title { color: var(--blue); }
+    .callout.amber {
+      background: var(--amber-muted);
+      border-color: var(--amber);
+    }
+    .callout.amber .callout-title { color: var(--amber); }
+    .callout-title {
+      font-size: 0.82rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.06em; margin-bottom: 0.5rem;
+    }
+    .callout-body {
+      font-size: 0.9rem; line-height: 1.65; color: var(--text);
+    }
+
+    /* ── Risk Cards ───────────────────────────────── */
+    .risks-section {
+      background: var(--accent-muted);
+      border: 2px solid var(--accent-border);
+      border-radius: var(--radius);
+      padding: 2rem 1.75rem; margin-top: 1rem;
+    }
+    .risks-section .risks-header {
+      font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.1em; color: var(--accent); margin-bottom: 1.25rem;
+    }
+    .risk-item {
+      display: flex; gap: 0.9rem; align-items: flex-start;
+      padding: 1rem 0;
+    }
+    .risk-item + .risk-item { border-top: 1px solid var(--accent-border); }
+    .risk-number {
+      flex-shrink: 0; width: 1.7rem; height: 1.7rem;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--accent); color: #fff;
+      font-size: 0.72rem; font-weight: 800; border-radius: 50%;
+    }
+    .risk-content { flex: 1; }
+    .risk-title {
+      font-size: 0.92rem; font-weight: 700; color: var(--text);
+      margin-bottom: 0.25rem;
+    }
+    .risk-desc {
+      font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;
+    }
+
+    /* ── Competition Table ─────────────────────────── */
+    .comp-table-wrap {
+      overflow-x: auto; margin: 1.5rem 0; border-radius: var(--radius);
+      border: 1px solid var(--border);
+    }
+    table {
+      width: 100%; border-collapse: collapse; font-size: 0.82rem;
+    }
+    thead { background: var(--bg-alt); }
+    th {
+      padding: 0.7rem 1rem; text-align: left; font-weight: 700;
+      font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.06em;
+      color: var(--text-secondary); border-bottom: 2px solid var(--border);
+    }
+    td {
+      padding: 0.65rem 1rem; border-bottom: 1px solid var(--border);
+      color: var(--text); vertical-align: top;
+    }
+    tr:last-child td { border-bottom: none; }
+    tbody tr:hover { background: var(--bg-alt); }
+
+    /* ── What Would Change My Mind ─────────────────── */
+    .change-grid {
+      display: grid; gap: 1rem; margin-top: 1rem;
+    }
+    .change-item {
+      display: flex; gap: 1rem; align-items: flex-start;
+      padding: 1.15rem 1.35rem;
+      background: var(--bg-alt); border-radius: var(--radius);
+      border: 1px solid var(--border);
+      transition: border-color 0.2s;
+    }
+    .change-item:hover { border-color: var(--blue); }
+    .change-icon {
+      flex-shrink: 0; width: 2rem; height: 2rem;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; background: var(--blue-muted);
+      border-radius: var(--radius-sm);
+    }
+    .change-content { flex: 1; }
+    .change-title {
+      font-size: 0.9rem; font-weight: 700; color: var(--text);
+      margin-bottom: 0.2rem;
+    }
+    .change-desc {
+      font-size: 0.83rem; color: var(--text-secondary); line-height: 1.6;
+    }
+
+    /* ── Verdict Banner ───────────────────────────── */
+    .verdict-banner {
+      max-width: var(--max-w); margin: 0 auto;
+      padding: 3.5rem 1.5rem; text-align: center;
+      border-top: 1px solid var(--border);
+    }
+    .verdict-banner .vb-label {
+      font-size: 0.65rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.12em; color: var(--text-tertiary); margin-bottom: 0.75rem;
+    }
+    .verdict-banner .vb-verdict {
+      font-size: 2.8rem; font-weight: 900; letter-spacing: -0.04em;
+      color: var(--accent); margin-bottom: 1rem;
+    }
+    .verdict-banner .vb-summary {
+      font-size: 1.05rem; font-weight: 500; color: var(--text-secondary);
+      max-width: 560px; margin: 0 auto; line-height: 1.6;
+    }
+
+    /* ── Bottom Line ──────────────────────────────── */
+    .bottom-line {
+      background: var(--bg-alt); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1.5rem 1.75rem;
+      margin: 2rem 0;
+    }
+    .bottom-line .bl-label {
+      font-size: 0.68rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.1em; color: var(--accent); margin-bottom: 0.6rem;
+    }
+    .bottom-line p {
+      font-size: 0.95rem; line-height: 1.7; color: var(--text);
+    }
+
+    /* ── Citations ─────────────────────────────────── */
+    .cite {
+      font-size: 0.65rem; font-weight: 700; color: var(--accent);
+      text-decoration: none; vertical-align: super; cursor: pointer;
+      padding: 0 0.1rem; transition: opacity 0.15s;
+    }
+    .cite:hover { opacity: 0.7; text-decoration: underline; }
+
+    /* ── Tooltip ───────────────────────────────────── */
+    .cite-tooltip {
+      position: fixed; z-index: 2000;
+      width: 320px; padding: 1rem 1.15rem;
+      background: var(--bg-card); color: var(--text);
+      border: 1px solid var(--border); border-radius: var(--radius);
+      box-shadow: var(--shadow-lg);
+      font-size: 0.8rem; line-height: 1.55;
+      pointer-events: none; opacity: 0;
+      transition: opacity 0.15s ease;
+    }
+    .cite-tooltip.visible { opacity: 1; pointer-events: auto; }
+    .cite-tooltip .tt-title {
+      font-weight: 700; margin-bottom: 0.3rem; font-size: 0.82rem;
+    }
+    .cite-tooltip .tt-desc {
+      color: var(--text-secondary); margin-bottom: 0.5rem;
+    }
+    .cite-tooltip .tt-url {
+      font-size: 0.7rem; color: var(--blue);
+      word-break: break-all;
+    }
+
+    /* ── Sources ───────────────────────────────────── */
+    .sources-section {
+      max-width: var(--max-w); margin: 0 auto;
+      padding: 2.5rem 1.5rem; border-top: 1px solid var(--border);
+    }
+    .sources-title {
+      font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.1em; color: var(--text-tertiary); margin-bottom: 1rem;
+    }
+    .sources-list {
+      list-style: none; display: grid; gap: 0.35rem;
+    }
+    .sources-list li {
+      font-size: 0.78rem; color: var(--text-secondary); line-height: 1.5;
+    }
+    .sources-list a {
+      color: var(--blue); text-decoration: none;
+    }
+    .sources-list a:hover { text-decoration: underline; }
+    .source-num {
+      font-weight: 700; color: var(--text-tertiary); margin-right: 0.3rem;
+    }
+
+    /* ── Footer ────────────────────────────────────── */
+    footer {
+      max-width: var(--max-w); margin: 0 auto;
+      padding: 2rem 1.5rem; text-align: center;
+      border-top: 1px solid var(--border);
+    }
+    footer p {
+      font-size: 0.75rem; color: var(--text-tertiary);
+    }
+
+    /* ── Fade In ──────────────────────────────────── */
+    .fade-in {
+      opacity: 0; transform: translateY(16px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── Print ─────────────────────────────────────── */
+    @media print {
+      nav, .progress-bar, .theme-toggle, .hamburger { display: none !important; }
+      .hero { padding-top: 2rem; }
+      .fade-in { opacity: 1 !important; transform: none !important; }
+      body { font-size: 11pt; }
+    }
+
+    /* ── Mobile ────────────────────────────────────── */
+    @media (max-width: 700px) {
+      .hero-company { font-size: 2.2rem; }
+      .hero-thesis { font-size: 1.1rem; }
+      .top-reasons { grid-template-columns: 1fr; }
+      .snapshot-grid { grid-template-columns: 1fr; }
+      .snapshot-item { border-right: none !important; }
+      .snapshot-item:nth-last-child(1) { border-bottom: none; }
+      .snapshot-item:nth-last-child(2) { border-bottom: 1px solid var(--border); }
+      .nav-links { 
+        display: none; flex-direction: column; 
+        position: absolute; top: 3.25rem; left: 0; right: 0;
+        background: var(--bg); border-bottom: 1px solid var(--border);
+        padding: 0.75rem; gap: 0;
+      }
+      .nav-links.open { display: flex; }
+      .hamburger { display: block; }
+      .metric-callout { flex-direction: column; gap: 0.3rem; }
+      .metric-callout .metric-value { font-size: 1.8rem; }
+      .verdict-banner .vb-verdict { font-size: 2rem; }
+      section { padding: 2rem 1.25rem 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="progress-bar" id="progressBar"></div>
+
+  <nav>
+    <div class="nav-inner">
+      <a href="#" class="nav-brand">Companyon Ventures</a>
+      <button class="hamburger" id="hamburgerBtn" aria-label="Menu">☰</button>
+      <div class="nav-links" id="navLinks">
+        <a href="#snapshot">Snapshot</a>
+        <a href="#problem">Problem</a>
+        <a href="#product">Product</a>
+        <a href="#falls-short">Gaps</a>
+        <a href="#competition">Competition</a>
+        <a href="#team">Team</a>
+        <a href="#risks">Risks</a>
+        <a href="#change-mind">Revisit If</a>
+        <button class="theme-toggle" id="themeToggle" title="Toggle theme">◑</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ════════════ HERO ════════════ -->
+  <header class="hero" id="verdict">
+    <div class="hero-verdict-badge">✕ &nbsp;PASS</div>
+    <h1 class="hero-company">YeshID</h1>
+    <p class="hero-tagline">AI-native identity and access management for mid-market companies</p>
+    <div class="hero-thesis">
+      Interesting wedge into a real pain point, but limited traction, an undifferentiated product surface, and a crowded market make this a pass at the current stage.
+    </div>
+  </header>
+
+  <!-- ════════════ TOP 3 REASONS ════════════ -->
+  <div class="top-reasons fade-in">
+    <div class="reason-chip">
+      <span class="reason-num">Reason 1</span>
+      <span class="reason-text">~$1.8M estimated revenue signals early but not breakout traction</span>
+    </div>
+    <div class="reason-chip">
+      <span class="reason-num">Reason 2</span>
+      <span class="reason-text">Feature set overlaps heavily with incumbents like Okta and JumpCloud</span>
+    </div>
+    <div class="reason-chip">
+      <span class="reason-num">Reason 3</span>
+      <span class="reason-text">Customer testimonials exist but skew small; no marquee mid-market logos or case studies</span>
+    </div>
+  </div>
+
+  <!-- ════════════ SNAPSHOT ════════════ -->
+  <section id="snapshot" class="fade-in">
+    <div class="section-label">Company Snapshot</div>
+    <h2 class="section-title">At a Glance</h2>
+    <div class="snapshot-grid">
+      <div class="snapshot-item">
+        <div class="snap-label">Founded</div>
+        <div class="snap-value">2023</div>
+      </div>
+      <div class="snapshot-item">
+        <div class="snap-label">HQ</div>
+        <div class="snap-value">Denver, CO (distributed)</div>
+      </div>
+      <div class="snapshot-item">
+        <div class="snap-label">Stage</div>
+        <div class="snap-value">Seed</div>
+      </div>
+      <div class="snapshot-item">
+        <div class="snap-label">Funding</div>
+        <div class="snap-value">$5.2M <a class="cite" href="#src-4" data-cite="4">[4]</a></div>
+      </div>
+      <div class="snapshot-item">
+        <div class="snap-label">Est. Revenue</div>
+        <div class="snap-value">~$1.8M ARR <a class="cite" href="#src-13" data-cite="13">[13]</a></div>
+      </div>
+      <div class="snapshot-item">
+        <div class="snap-label">Sector</div>
+        <div class="snap-value">Identity &amp; Access Management</div>
+      </div>
+      <div class="snapshot-item">
+        <div class="snap-label">Founders</div>
+        <div class="snap-value">Dana Wolf (CEO), Alex Vaystikh (CTO)</div>
+      </div>
+      <div class="snapshot-item">
+        <div class="snap-label">Model</div>
+        <div class="snap-value">SaaS, per-user pricing</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════ PROBLEM ════════════ -->
+  <section id="problem" class="fade-in">
+    <div class="section-label">Market &amp; Problem</div>
+    <h2 class="section-title">The Pain Is Real</h2>
+    <p class="section-intro">Why this space matters to the investment thesis, and where YeshID fits in it.</p>
+
+    <div class="prose">
+      <p>Mid-market companies (roughly 100 to 2,000 employees) face an identity management gap. They have outgrown spreadsheets and manual provisioning, but enterprise-grade platforms like Okta and SailPoint are expensive, slow to deploy, and over-engineered for their needs.<a class="cite" href="#src-9" data-cite="9">[9]</a></p>
+      <p>The result: orphaned accounts, delayed offboarding, SaaS sprawl, and compliance exposure. It is a genuine operational drag, and it creates real security risk.</p>
+    </div>
+
+    <div class="metric-callout">
+      <span class="metric-value">$25B+</span>
+      <span class="metric-label">Projected IAM market size by 2029, growing at ~13% CAGR.<a class="cite" href="#src-8" data-cite="8">[8]</a></span>
+    </div>
+
+    <div class="callout strength">
+      <div class="callout-title">✓ Strength</div>
+      <div class="callout-body">The mid-market identity gap is well-documented. Companies at this scale often pay for Okta but only use a fraction of its capabilities, or they cobble together Google Workspace and manual processes. YeshID's pitch (simple, affordable IAM) lands in a space where buyers are actively looking for something better.<a class="cite" href="#src-1" data-cite="1">[1]</a></div>
+    </div>
+
+    <div class="pull-quote">
+      "The mid-market doesn't need a lighter version of Okta. It needs a fundamentally different approach to identity."
+      <span class="pq-attr">Paraphrased from YeshID positioning<a class="cite" href="#src-3" data-cite="3">[3]</a></span>
+    </div>
+  </section>
+
+  <!-- ════════════ PRODUCT ════════════ -->
+  <section id="product" class="fade-in">
+    <div class="section-label">Product</div>
+    <h2 class="section-title">What YeshID Actually Builds</h2>
+    <p class="section-intro">Evaluating whether the product creates durable differentiation or just catches up to table stakes.</p>
+
+    <div class="prose">
+      <p>YeshID offers a cloud-based IAM platform that bundles SSO, user lifecycle management, directory services, and access reviews into a single dashboard. The company leans heavily on an "AI-native" narrative, claiming that its models can automate provisioning, detect anomalous access, and recommend policy changes.<a class="cite" href="#src-5" data-cite="5">[5]</a></p>
+      <p>Its February 2026 release notes highlight agentic AI copilots for identity workflows, joiners-movers-leavers automation, and compliance reporting.<a class="cite" href="#src-7" data-cite="7">[7]</a></p>
+    </div>
+
+    <div class="callout neutral">
+      <div class="callout-title">⚑ Observation</div>
+      <div class="callout-body">The AI features are plausible, but the company provides no benchmarks, customer evidence, or technical detail to back up the claims. Every IAM vendor now has an "AI-powered" label. Without proof points, this reads as positioning rather than a moat.<a class="cite" href="#src-6" data-cite="6">[6]</a></div>
+    </div>
+
+    <div class="callout strength">
+      <div class="callout-title">✓ Strength</div>
+      <div class="callout-body">YeshID has achieved SOC 2 compliance, a meaningful trust signal for a seed-stage company selling identity software.<a class="cite" href="#src-11" data-cite="11">[11]</a> This removes one of the most common sales blockers in enterprise security procurement and shows operational discipline early.</div>
+    </div>
+  </section>
+
+  <!-- ════════════ FALLS SHORT ════════════ -->
+  <section id="falls-short" class="fade-in">
+    <div class="section-label">Where It Falls Short</div>
+    <h2 class="section-title">Why "Good Enough" Isn't Enough</h2>
+    <p class="section-intro">The gap between a reasonable product and a venture-scale outcome.</p>
+
+    <div class="callout risk">
+      <div class="callout-title">✕ Concern</div>
+      <div class="callout-body">YeshID's feature set (SSO, directory sync, lifecycle automation) is functionally similar to what Okta, JumpCloud, and Rippling already ship. The differentiation argument rests almost entirely on price and simplicity, which are real but fragile advantages. Any of those incumbents could release a mid-market SKU tomorrow.</div>
+    </div>
+
+    <div class="pull-quote">
+      The hardest question for YeshID is not "does this solve a problem?" but "why can't Okta or Rippling just ship this feature next quarter?"
+    </div>
+
+    <div class="supporting">
+      <p>The blog publishes roughly once per month and focuses on feature announcements rather than thought leadership or technical depth.<a class="cite" href="#src-12" data-cite="12">[12]</a> The website does feature customer testimonials from users at Theater Centre, Quivo, and Determinate Systems,<a class="cite" href="#src-14" data-cite="14">[14]</a> which is a positive signal. However, these are small organizations, and the company has not published detailed case studies, quantified outcomes, or logos from recognizable mid-market brands. For a company generating an estimated $1.8M in revenue,<a class="cite" href="#src-13" data-cite="13">[13]</a> stronger social proof would meaningfully de-risk the story.</p>
+    </div>
+  </section>
+
+  <!-- ════════════ COMPETITION ════════════ -->
+  <section id="competition" class="fade-in">
+    <div class="section-label">Competitive Landscape</div>
+    <h2 class="section-title">A Crowded and Capable Field</h2>
+    <p class="section-intro">Where YeshID sits relative to the players that already own enterprise identity.</p>
+
+    <div class="callout amber">
+      <div class="callout-title">⚠ Key Insight</div>
+      <div class="callout-body">The biggest competitive risk is not another startup. It is Okta and Rippling deciding the mid-market is worth simplifying for. YeshID's "Okta is overkill" positioning works today, but it also hands the incumbents a clear product roadmap: launch a lighter tier, match on price, and leverage existing distribution. This is the classic startup-vs-incumbent squeeze, and identity is a category where trust, integrations, and ecosystem depth matter enormously.<a class="cite" href="#src-1" data-cite="1">[1]</a></div>
+    </div>
+
+    <div class="comp-table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Player</th>
+            <th>Sweet Spot</th>
+            <th>Strengths</th>
+            <th>YeshID Angle</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Okta</strong></td>
+            <td>Enterprise</td>
+            <td>Market leader, deep integrations</td>
+            <td>"Overkill and overpriced for mid-market"</td>
+          </tr>
+          <tr>
+            <td><strong>JumpCloud</strong></td>
+            <td>SMB to Mid</td>
+            <td>Directory + device + IAM bundle</td>
+            <td>Less focused on AI-native workflows</td>
+          </tr>
+          <tr>
+            <td><strong>Rippling</strong></td>
+            <td>SMB to Mid</td>
+            <td>HR + IT convergence, fast growth</td>
+            <td>Identity is a module, not the core</td>
+          </tr>
+          <tr>
+            <td><strong>Microsoft Entra</strong></td>
+            <td>Microsoft shops</td>
+            <td>Bundled with M365, massive scale</td>
+            <td>Locked to Microsoft ecosystem</td>
+          </tr>
+          <tr>
+            <td><strong>ConductorOne</strong></td>
+            <td>Mid to Enterprise</td>
+            <td>Access reviews and governance</td>
+            <td>More mature, $30M+ raised</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="supporting">
+      <p>YeshID's positioning against Okta ("overkill for the mid-market") is sharp and resonant. The problem is that this same argument makes it easy for Okta to respond with a stripped-down tier, and Okta has the brand trust, the integrations library, and the sales force to reach those same buyers.<a class="cite" href="#src-9" data-cite="9">[9]</a></p>
+    </div>
+  </section>
+
+  <!-- ════════════ TEAM ════════════ -->
+  <section id="team" class="fade-in">
+    <div class="section-label">Team</div>
+    <h2 class="section-title">Founders and Background</h2>
+    <p class="section-intro">Relevant domain experience is a plus. The open questions are about go-to-market execution.</p>
+
+    <div class="prose">
+      <p>CEO Dana Wolf and CTO Alex Vaystikh both come from deep security backgrounds, having met at RSA over a decade ago.<a class="cite" href="#src-2" data-cite="2">[2]</a> Vaystikh previously co-founded SecurityScorecard, which reached a $2.5B valuation.<a class="cite" href="#src-10" data-cite="10">[10]</a> That exit signals real experience building and scaling a security company. Wolf brings additional leadership and go-to-market experience from years in the enterprise security space.</p>
+    </div>
+
+    <div class="callout strength">
+      <div class="callout-title">✓ Strength</div>
+      <div class="callout-body">Vaystikh's SecurityScorecard background is the strongest single founder signal in this deal. Combined with Wolf's security industry tenure and their shared RSA roots, this is a founding team that understands the buyer and has a network that should help with early enterprise conversations.</div>
+    </div>
+
+    <div class="supporting">
+      <p>That said, the team's public presence is thin. LinkedIn profiles are sparse, there is no visible advisory board, and the company has not announced any key hires in engineering, sales, or marketing. At the seed stage this is forgivable, but it limits our ability to assess execution capacity beyond the founders.</p>
+    </div>
+  </section>
+
+  <!-- ════════════ RISKS ════════════ -->
+  <section id="risks" class="fade-in">
+    <div class="section-label">Risk Assessment</div>
+    <h2 class="section-title">Why We Pass</h2>
+    <p class="section-intro">Ranked by severity. These are the factors that tipped the recommendation.</p>
+
+    <div class="risks-section">
+      <div class="risks-header">⚑ Critical Risks &mdash; Ordered by Impact</div>
+
+      <div class="risk-item">
+        <div class="risk-number">1</div>
+        <div class="risk-content">
+          <div class="risk-title">Incumbent Squeeze</div>
+          <div class="risk-desc">Okta, Rippling, and JumpCloud all serve adjacent segments and could ship a mid-market SKU at any time. YeshID's "simpler and cheaper" positioning is a feature gap, not a structural moat. The company is building in a space where the biggest players have every incentive to follow.</div>
+        </div>
+      </div>
+
+      <div class="risk-item">
+        <div class="risk-number">2</div>
+        <div class="risk-content">
+          <div class="risk-title">Limited Customer Validation</div>
+          <div class="risk-desc">The ~$1.8M revenue estimate comes from a third-party source.<a class="cite" href="#src-13" data-cite="13">[13]</a> The company does publish testimonials from users at Theater Centre, Quivo, and Determinate Systems,<a class="cite" href="#src-14" data-cite="14">[14]</a> but these are small organizations. There are no published case studies with quantified outcomes, and no recognizable mid-market logos. Early social proof exists, but it does not yet signal breakout adoption.</div>
+        </div>
+      </div>
+
+      <div class="risk-item">
+        <div class="risk-number">3</div>
+        <div class="risk-content">
+          <div class="risk-title">Undifferentiated "AI" Claims</div>
+          <div class="risk-desc">The AI-native narrative is central to YeshID's pitch, but there are no benchmarks, technical papers, or measurable outcomes to support it. Every IAM vendor now claims AI capabilities. Without evidence, this is a marketing label, not a moat.<a class="cite" href="#src-5" data-cite="5">[5]</a><a class="cite" href="#src-6" data-cite="6">[6]</a></div>
+        </div>
+      </div>
+
+      <div class="risk-item">
+        <div class="risk-number">4</div>
+        <div class="risk-content">
+          <div class="risk-title">Thin Go-to-Market Signal</div>
+          <div class="risk-desc">No partnerships, channel strategy, or integrations marketplace announced. Blog content is infrequent and product-focused rather than thought-leadership driven. This limits organic discovery and credibility-building.<a class="cite" href="#src-12" data-cite="12">[12]</a></div>
+        </div>
+      </div>
+
+      <div class="risk-item">
+        <div class="risk-number">5</div>
+        <div class="risk-content">
+          <div class="risk-title">Narrow Funding Base</div>
+          <div class="risk-desc">$5.2M in seed funding provides more runway than most early-stage IAM startups, but competing against well-funded incumbents with deep integration libraries and established sales channels remains capital-intensive. Efficient deployment of this round will be critical.<a class="cite" href="#src-4" data-cite="4">[4]</a></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════ VERDICT BANNER ════════════ -->
+  <div class="verdict-banner fade-in">
+    <div class="vb-label">Final Recommendation</div>
+    <div class="vb-verdict">PASS</div>
+    <p class="vb-summary">The problem is real and the founder has a strong track record, but the product, traction, and competitive position do not yet support a venture-scale bet. We would revisit if the company hits clear inflection points.</p>
+  </div>
+
+  <!-- ════════════ WHAT WOULD CHANGE MY MIND ════════════ -->
+  <section id="change-mind" class="fade-in">
+    <div class="section-label">Conditions for Revisiting</div>
+    <h2 class="section-title">What Would Change My Mind</h2>
+    <p class="section-intro">This is not a permanent no. These are the specific signals that would reopen the conversation.</p>
+
+    <div class="change-grid">
+      <div class="change-item">
+        <div class="change-icon">📈</div>
+        <div class="change-content">
+          <div class="change-title">Revenue Hits $5M+ ARR with Net Retention Above 120%</div>
+          <div class="change-desc">Would prove real product-market fit and indicate the mid-market wedge is working. Growth from $1.8M to $5M with strong retention would be a meaningful signal.</div>
+        </div>
+      </div>
+
+      <div class="change-item">
+        <div class="change-icon">🏢</div>
+        <div class="change-content">
+          <div class="change-title">Marquee Mid-Market Logos and Published Case Studies</div>
+          <div class="change-desc">Testimonials from Theater Centre, Quivo, and Determinate Systems are a start, but these are small organizations. Landing two or three recognizable 200+ employee companies with published, quantified case studies would meaningfully shift the risk profile.</div>
+        </div>
+      </div>
+
+      <div class="change-item">
+        <div class="change-icon">🔒</div>
+        <div class="change-content">
+          <div class="change-title">SOC 2 Type II Report (Upgrade from Type I)</div>
+          <div class="change-desc">The company has achieved SOC 2 compliance, which is a strong start. Graduating to a Type II report covering sustained controls over 6+ months would further strengthen buyer confidence and close the gap with enterprise-grade competitors.</div>
+        </div>
+      </div>
+
+      <div class="change-item">
+        <div class="change-icon">🧠</div>
+        <div class="change-content">
+          <div class="change-title">Demonstrated AI Differentiation With Measurable Results</div>
+          <div class="change-desc">Benchmarks showing their AI models outperform rule-based competitors on provisioning accuracy, anomaly detection, or time-to-resolution. Claims need evidence.</div>
+        </div>
+      </div>
+
+      <div class="change-item">
+        <div class="change-icon">🤝</div>
+        <div class="change-content">
+          <div class="change-title">Strategic Partnership or Integration Ecosystem</div>
+          <div class="change-desc">A distribution deal with an HR platform, HRIS, or MSP channel that gives YeshID access to mid-market buyers without solely relying on direct sales.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bottom-line">
+      <div class="bl-label">Bottom Line</div>
+      <p>YeshID is building in a real market with a plausible product and a credible founding team. But "plausible" is not "compelling" at the venture stage. The company needs to prove it can win customers in a category where trust, integrations, and distribution are everything, and where much larger players are paying attention. We would be genuinely interested in revisiting this if the traction and differentiation signals start to show up.</p>
+    </div>
+  </section>
+
+  <!-- ════════════ SOURCES ════════════ -->
+  <div class="sources-section fade-in">
+    <div class="sources-title">Sources</div>
+    <ul class="sources-list">
+      <li id="src-1"><span class="source-num">[1]</span> <a href="https://www.yeshid.com" target="_blank" rel="noopener">yeshid.com</a> &mdash; Company homepage and product overview</li>
+      <li id="src-2"><span class="source-num">[2]</span> <a href="https://www.yeshid.com/about" target="_blank" rel="noopener">yeshid.com/about</a> &mdash; Founding team and company background</li>
+      <li id="src-3"><span class="source-num">[3]</span> <a href="https://www.yeshid.com/post/why-yeshid-exists" target="_blank" rel="noopener">yeshid.com/post/why-yeshid-exists</a> &mdash; Founding blog post on company mission</li>
+      <li id="src-4"><span class="source-num">[4]</span> <a href="https://tracxn.com/d/companies/yeshid/__JdeTwG5PFj8IHjEzGN6MFl68Yi3dNqx06rYBkr5z6Hs" target="_blank" rel="noopener">Tracxn</a> &mdash; Funding history and investor details</li>
+      <li id="src-5"><span class="source-num">[5]</span> <a href="https://www.yeshid.com/post/ai-native-iam-modern-identity-management" target="_blank" rel="noopener">yeshid.com blog</a> &mdash; AI-native IAM positioning</li>
+      <li id="src-6"><span class="source-num">[6]</span> <a href="https://www.yeshid.com/post/agentic-ai-identity-management" target="_blank" rel="noopener">yeshid.com blog</a> &mdash; Agentic AI and identity management</li>
+      <li id="src-7"><span class="source-num">[7]</span> <a href="https://www.yeshid.com/post/yeshid-product-updates-february-2026" target="_blank" rel="noopener">yeshid.com blog</a> &mdash; February 2026 product release notes</li>
+      <li id="src-8"><span class="source-num">[8]</span> <a href="https://www.marketsandmarkets.com/Market-Reports/identity-access-management-iam-market-1168.html" target="_blank" rel="noopener">MarketsandMarkets</a> &mdash; IAM market size and growth projections</li>
+      <li id="src-9"><span class="source-num">[9]</span> <a href="https://sso.tax" target="_blank" rel="noopener">sso.tax</a> &mdash; SSO pricing wall documentation</li>
+      <li id="src-10"><span class="source-num">[10]</span> <a href="https://www.linkedin.com/in/alexvaystikh/" target="_blank" rel="noopener">LinkedIn</a> &mdash; Alex Vaystikh (CTO) professional background</li>
+      <li id="src-11"><span class="source-num">[11]</span> <a href="https://trust.yeshid.com" target="_blank" rel="noopener">trust.yeshid.com</a> &mdash; Trust center confirming SOC 2 compliance</li>
+      <li id="src-12"><span class="source-num">[12]</span> <a href="https://www.yeshid.com/blog" target="_blank" rel="noopener">yeshid.com/blog</a> &mdash; Blog content and publishing frequency</li>
+      <li id="src-13"><span class="source-num">[13]</span> <a href="https://app.prospeo.io/directory/yeshid-revenue-and-funding" target="_blank" rel="noopener">Prospeo.io</a> &mdash; YeshID estimated revenue data</li>
+      <li id="src-14"><span class="source-num">[14]</span> <a href="https://www.yeshid.com/products/access-reviews" target="_blank" rel="noopener">yeshid.com/products/access-reviews</a> &mdash; Customer testimonials from Theater Centre, Quivo, and Determinate Systems</li>
+    </ul>
+  </div>
+
+  <footer>
+    <p>Prepared for Companyon Ventures &middot; Investment Memo &middot; 2025</p>
+  </footer>
+
+  <!-- ════════════ TOOLTIP CONTAINER ════════════ -->
+  <div class="cite-tooltip" id="citeTooltip"></div>
+
+  <script>
+    /* ── Source data for tooltips ── */
+    const sourceData = {
+      1:  { title: "YeshID Homepage", desc: "Company homepage with product overview, feature descriptions, and positioning.", url: "https://www.yeshid.com" },
+      2:  { title: "YeshID About Page", desc: "Founding team bios, company backstory, and mission statement.", url: "https://www.yeshid.com/about" },
+      3:  { title: "Why YeshID Exists", desc: "Founding blog post explaining the company's origin and market thesis.", url: "https://www.yeshid.com/post/why-yeshid-exists" },
+      4:  { title: "Tracxn — YeshID Funding", desc: "Third-party profile showing $5.2M seed round, investor details, and company metadata.", url: "https://tracxn.com/d/companies/yeshid/__JdeTwG5PFj8IHjEzGN6MFl68Yi3dNqx06rYBkr5z6Hs" },
+      5:  { title: "AI-Native IAM Blog Post", desc: "YeshID's positioning on AI-native identity management and how it differs from legacy approaches.", url: "https://www.yeshid.com/post/ai-native-iam-modern-identity-management" },
+      6:  { title: "Agentic AI Blog Post", desc: "Discussion of agentic AI capabilities applied to identity workflows and access decisions.", url: "https://www.yeshid.com/post/agentic-ai-identity-management" },
+      7:  { title: "Feb 2026 Release Notes", desc: "Product updates including AI copilots, JML automation, and compliance reporting features.", url: "https://www.yeshid.com/post/yeshid-product-updates-february-2026" },
+      8:  { title: "MarketsandMarkets IAM Report", desc: "Market research projecting IAM market to exceed $25B by 2029 at ~13% CAGR.", url: "https://www.marketsandmarkets.com/Market-Reports/identity-access-management-iam-market-1168.html" },
+      9:  { title: "SSO Tax", desc: "Community-maintained documentation of SaaS vendors that charge a premium for SSO features.", url: "https://sso.tax" },
+      10: { title: "Alex Vaystikh LinkedIn", desc: "CTO profile showing SecurityScorecard co-founder background and career history.", url: "https://www.linkedin.com/in/alexvaystikh/" },
+      11: { title: "YeshID Trust Center", desc: "Trust center confirming SOC 2 compliance. A positive signal for a seed-stage identity company.", url: "https://trust.yeshid.com" },
+      12: { title: "YeshID Blog", desc: "Company blog with product announcements. Publishes roughly monthly, limited thought leadership.", url: "https://www.yeshid.com/blog" },
+      13: { title: "Prospeo.io Revenue Estimate", desc: "Third-party estimate of YeshID's revenue at approximately $1.8M, based on company signals.", url: "https://app.prospeo.io/directory/yeshid-revenue-and-funding" },
+      14: { title: "YeshID Customer Testimonials", desc: "Product page featuring quotes from users at Theater Centre, Quivo, and Determinate Systems praising usability and SOC 2 workflow.", url: "https://www.yeshid.com/products/access-reviews" }
+    };
+
+    /* ── Theme Toggle ── */
+    const themeToggle = document.getElementById('themeToggle');
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) document.documentElement.setAttribute('data-theme', savedTheme);
+
+    themeToggle.addEventListener('click', () => {
+      const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+    });
+
+    /* ── Mobile Nav ── */
+    document.getElementById('hamburgerBtn').addEventListener('click', () => {
+      document.getElementById('navLinks').classList.toggle('open');
+    });
+
+    /* ── Progress Bar ── */
+    window.addEventListener('scroll', () => {
+      const h = document.documentElement.scrollHeight - window.innerHeight;
+      const pct = h > 0 ? (window.scrollY / h) * 100 : 0;
+      document.getElementById('progressBar').style.width = pct + '%';
+    });
+
+    /* ── Active Nav Link ── */
+    const sections = document.querySelectorAll('section[id], header[id], div.verdict-banner');
+    const navAnchors = document.querySelectorAll('.nav-links a[href^="#"]');
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(s => {
+        if (window.scrollY >= s.offsetTop - 120) current = s.id || '';
+      });
+      navAnchors.forEach(a => {
+        a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+      });
+    });
+
+    /* ── Fade-in Observer ── */
+    const fadeEls = document.querySelectorAll('.fade-in');
+    const fadeObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); fadeObs.unobserve(e.target); } });
+    }, { threshold: 0.08 });
+    fadeEls.forEach(el => fadeObs.observe(el));
+
+    /* ── Citation Tooltips ── */
+    const tooltip = document.getElementById('citeTooltip');
+    let tooltipTimeout;
+
+    function showTooltip(e) {
+      const num = parseInt(e.target.dataset.cite);
+      const src = sourceData[num];
+      if (!src) return;
+      clearTimeout(tooltipTimeout);
+      tooltip.innerHTML = `<div class="tt-title">${src.title}</div><div class="tt-desc">${src.desc}</div><div class="tt-url">${src.url}</div>`;
+      const rect = e.target.getBoundingClientRect();
+      let top = rect.bottom + 8;
+      let left = rect.left - 100;
+      if (left < 12) left = 12;
+      if (left + 320 > window.innerWidth) left = window.innerWidth - 332;
+      if (top + 150 > window.innerHeight) top = rect.top - 130;
+      tooltip.style.top = top + 'px';
+      tooltip.style.left = left + 'px';
+      tooltip.classList.add('visible');
+    }
+
+    function hideTooltip() {
+      tooltipTimeout = setTimeout(() => tooltip.classList.remove('visible'), 200);
+    }
+
+    document.querySelectorAll('.cite').forEach(c => {
+      c.addEventListener('mouseenter', showTooltip);
+      c.addEventListener('mouseleave', hideTooltip);
+      c.addEventListener('focus', showTooltip);
+      c.addEventListener('blur', hideTooltip);
+    });
+
+    tooltip.addEventListener('mouseenter', () => clearTimeout(tooltipTimeout));
+    tooltip.addEventListener('mouseleave', hideTooltip);
+  </script>
+</body>
+</html>
